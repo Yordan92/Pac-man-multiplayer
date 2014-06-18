@@ -3,12 +3,16 @@ from PacManMap import *
 from MakeGraph import MakeGraph
 class PacMan(MakeGraph):
 
+	name_image = "pacm.jpg"
+	cords = {'x': 92, 'y': 276}
+	
 	def __init__(self,class_a):
-		self.name_image = "pacm.jpg"
-		self.cords = {'x': 92, 'y': 276}
+		# self.name_image = "pacm.jpg"
+		# self.cords = {'x': 92, 'y': 276}
 		self.nodes = class_a.nodes
 
-	def moveUp(self):
+
+	def move_up(self):
 		temp_y = int(self.cords['y'] / MOVE) - 1
 		temp_x = int(self.cords['x'] / MOVE)
 		if Map[temp_y][temp_x] == 2:
@@ -16,7 +20,7 @@ class PacMan(MakeGraph):
 		if temp_y >= 0 and Map[temp_y][temp_x] != 0:
 			self.cords['y'] -= MOVE
 
-	def moveDown(self):
+	def move_down(self):
 		temp_y = int(self.cords['y'] / MOVE) + 1
 		temp_x = int(self.cords['x'] / MOVE)
 		if Map[temp_y][temp_x] == 2:
@@ -24,7 +28,7 @@ class PacMan(MakeGraph):
 		if temp_y < len(Map) and Map[temp_y][temp_x] != 0:
 			self.cords['y'] += MOVE
 
-	def moveLeft(self):
+	def move_left(self):
 		temp_x = int(self.cords['x'] / MOVE) - 1
 		temp_y = int(self.cords['y'] / MOVE)
 		if Map[temp_y][temp_x] == 2:
@@ -37,7 +41,7 @@ class PacMan(MakeGraph):
 		if temp_x >= 0 and Map[temp_y][temp_x] != 0:
 			self.cords['x'] -= MOVE
 
-	def moveRight(self):
+	def move_right(self):
 		temp_x = int(self.cords['x'] / MOVE) + 1
 		temp_y = int(self.cords['y'] / MOVE)
 
@@ -55,63 +59,7 @@ class PacMan(MakeGraph):
 		closest_nodes =[]
 		pacman_x = int(self.cords['x']/23)
 		pacman_y = int(self.cords['y']/23)
-		print((pacman_x,pacman_y))
-		# def find_closest_up(pacman_x,pacman_y):
-		# 	pacman_x -= 1
-		# 	while (pacman_y,pacman_x) not in self.nodes:
-				
-		# 		if pacman_x < 0 or Map[pacman_y][pacman_x] == 0:
-		# 			return 0
-		# 		pacman_x -= 1
-		# 	if pacman_x >= 0:
-		# 		print((pacman_x,pacman_y))
-		# 		return (pacman_x,pacman_y)
-
-		# def find_closest_down(pacman_x,pacman_y):
-		# 	pacman_x += 1
-		# 	while (pacman_y,pacman_x) not in self.nodes:
-		# 		# print((pacman_x,pacman_y))
-				
-		# 		if pacman_x >= len(Map) or Map[pacman_y][pacman_x] == 0:
-		# 			return 0
-		# 		pacman_x += 1
-		# 	if pacman_x < len(Map):
-		# 		return (pacman_x,pacman_y)
-
-		# def find_closest_left(pacman_x,pacman_y):
-		# 	pacman_y -= 1
-		# 	while (pacman_y,pacman_x) not in self.nodes:
-				
-		# 		if pacman_y < 0 or Map[pacman_y][pacman_x] == 0:
-		# 			return 0
-		# 		pacman_y -= 1
-		# 	if pacman_y >= 0:
-		# 		return (pacman_x,pacman_y)
-
-		# def find_closest_right(pacman_x,pacman_y):
-		# 	pacman_y += 1
-		# 	while (pacman_y,pacman_x) not in self.nodes:
-				
-		# 		if pacman_y >= len(Map[0]) or Map[pacman_y][pacman_x] == 0:
-		# 			return 0
-		# 		pacman_y += 1
-		# 	if pacman_y < len(Map[0]):
-		# 		return (pacman_x,pacman_y)
 		
-		# if find_closest_up(pacman_x,pacman_y) != 0:
-		# 	closest_nodes.append(find_closest_up(pacman_x,pacman_y))
-			
-
-		# if find_closest_down(pacman_x,pacman_y) != 0:
-		# 	closest_nodes.append(find_closest_down(pacman_x,pacman_y))
-
-		# if find_closest_left(pacman_x,pacman_y) != 0:
-		# 	closest_nodes.append(find_closest_left(pacman_x,pacman_y))
-
-		# if find_closest_right(pacman_x,pacman_y) != 0:
-		# 	closest_nodes.append(find_closest_right(pacman_x,pacman_y))
-
-		# return closest_nodes
 		vertex = (pacman_y,pacman_x)
 		queue = [vertex]
 		Visited = [vertex]
@@ -138,33 +86,33 @@ class PacMan(MakeGraph):
 		return closest_nodes
 
 
-	def draw_Nodes(self,screen):
-		l = self.find_closest_nodes()
-		for i in l:
-			pygame.draw.rect(screen, (255, 0, 255),
-                                     (i[0] * MOVE, i[1] * MOVE, 23, 23))
+	# def draw_nodes(self,screen):
+	# 	l = self.find_closest_nodes()
+	# 	for i in l:
+	# 		pygame.draw.rect(screen, (255, 0, 255),
+ #                                     (i[0] * MOVE, i[1] * MOVE, 23, 23))
 
 
-	def drawPacman(self, screen, direction):
-		pacman = pygame.image.load(self.name_image)
-		pacmanL = pygame.transform.rotate(pacman, 180)
-		pacmanU = pygame.transform.rotate(pacman, 90)
-		pacmanD = pygame.transform.rotate(pacman, 270)
+	# def draw_pacman(self, screen, direction):
+	# 	pacman = pygame.image.load(self.name_image)
+	# 	pacmanL = pygame.transform.rotate(pacman, 180)
+	# 	pacmanU = pygame.transform.rotate(pacman, 90)
+	# 	pacmanD = pygame.transform.rotate(pacman, 270)
 
-		default_rotation = pacman
-		if direction == 'l':
-			default_rotation = pacmanL
-			self.moveLeft()
-		elif direction == 'r':
-			default_rotation = pacman
-			self.moveRight()
-		elif direction == 'u':
-			default_rotation = pacmanU
-			self.moveUp()
-		else:
-			default_rotation = pacmanD
-			self.moveDown()
+	# 	default_rotation = pacman
+	# 	if direction == 'l':
+	# 		default_rotation = pacmanL
+	# 		self.move_left()
+	# 	elif direction == 'r':
+	# 		default_rotation = pacman
+	# 		self.move_right()
+	# 	elif direction == 'u':
+	# 		default_rotation = pacmanU
+	# 		self.move_up()
+	# 	else:
+	# 		default_rotation = pacmanD
+	# 		self.move_down()
 
-		screen.blit(default_rotation,
-					(self.cords['x'], self.cords['y']))
+	# 	screen.blit(default_rotation,
+	# 				(self.cords['x'], self.cords['y']))
 

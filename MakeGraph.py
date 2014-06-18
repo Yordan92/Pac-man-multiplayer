@@ -4,9 +4,9 @@ class MakeGraph:
 
 	def __init__(self):
 		self.shortest_path_from_one_to_other = {}
-		self.nodes = self.find_Nodes()
+		self.nodes = self.find_nodes()
 
-	def find_Nodes(self):
+	def find_nodes(self):
 		nodes = []
 		for row_n in range(1, len(Map) - 1):
 			for col_n in range(2, len(Map[0]) - 1):
@@ -38,14 +38,14 @@ class MakeGraph:
 			return False
 		return True
 
-	def BFS(self, vertex):
+	def bfs(self, vertex):
 		Path_all_in_Matrix = {}
 		Path_all_in_Matrix[vertex] = vertex
 		Path_to_Nodes = {}
 		Path_to_Nodes[vertex] = vertex
 		queue = [vertex]
 		Visited = [vertex]
-		all_Nodes = self.find_Nodes()
+		all_Nodes = self.find_nodes()
 		all_Nodes.remove(vertex)
 		while queue != []:
 			new_v = queue.pop(0)
@@ -81,17 +81,17 @@ class MakeGraph:
 
 		return Path_to_Nodes
 
-	def make_all_Paths(self):
+	def make_all_paths(self):
 
-		all_Nodes = self.find_Nodes()
+		all_Nodes = self.find_nodes()
 		for node in all_Nodes:
-			self.shortest_path_from_one_to_other[node] = self.BFS(node)
+			self.shortest_path_from_one_to_other[node] = self.bfs(node)
 		return self.shortest_path_from_one_to_other
 
-	def draw_Shortest_path(self, screen, v1, v2):
+	def draw_shortest_path(self, screen, v1, v2):
 		
 		if not self.shortest_path_from_one_to_other:
-			self.make_all_Paths()
+			self.make_all_paths()
 		l = self.shortest_path_from_one_to_other[v1][v2]
 		full = l
 	   
