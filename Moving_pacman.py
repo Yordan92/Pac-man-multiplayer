@@ -1,6 +1,7 @@
 import pygame 
 from PacManMap import *
 from MakeGraph import MakeGraph
+
 class PacMan(MakeGraph):
 
 	name_image = "pacm.jpg"
@@ -86,33 +87,33 @@ class PacMan(MakeGraph):
 		return closest_nodes
 
 
-	# def draw_nodes(self,screen):
-	# 	l = self.find_closest_nodes()
-	# 	for i in l:
-	# 		pygame.draw.rect(screen, (255, 0, 255),
- #                                     (i[0] * MOVE, i[1] * MOVE, 23, 23))
+	def draw_nodes(self,screen):
+		l = self.find_closest_nodes()
+		for i in l:
+			pygame.draw.rect(screen, (255, 0, 255),
+                                     (i[0] * MOVE, i[1] * MOVE, 23, 23))
 
 
-	# def draw_pacman(self, screen, direction):
-	# 	pacman = pygame.image.load(self.name_image)
-	# 	pacmanL = pygame.transform.rotate(pacman, 180)
-	# 	pacmanU = pygame.transform.rotate(pacman, 90)
-	# 	pacmanD = pygame.transform.rotate(pacman, 270)
+	def draw_pacman(self, screen, direction):
+		pacman = pygame.image.load(self.name_image)
+		pacmanL = pygame.transform.rotate(pacman, 180)
+		pacmanU = pygame.transform.rotate(pacman, 90)
+		pacmanD = pygame.transform.rotate(pacman, 270)
 
-	# 	default_rotation = pacman
-	# 	if direction == 'l':
-	# 		default_rotation = pacmanL
-	# 		self.move_left()
-	# 	elif direction == 'r':
-	# 		default_rotation = pacman
-	# 		self.move_right()
-	# 	elif direction == 'u':
-	# 		default_rotation = pacmanU
-	# 		self.move_up()
-	# 	else:
-	# 		default_rotation = pacmanD
-	# 		self.move_down()
+		default_rotation = pacman
+		if direction == 'l':
+			default_rotation = pacmanL
+			self.move_left()
+		elif direction == 'r':
+			default_rotation = pacman
+			self.move_right()
+		elif direction == 'u':
+			default_rotation = pacmanU
+			self.move_up()
+		else:
+			default_rotation = pacmanD
+			self.move_down()
 
-	# 	screen.blit(default_rotation,
-	# 				(self.cords['x'], self.cords['y']))
+		screen.blit(default_rotation,
+					(self.cords['x'], self.cords['y']))
 

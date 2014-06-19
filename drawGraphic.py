@@ -9,9 +9,11 @@ from pygame.locals import *
 from PacManMap import *
 from MakeGraph import *
 from Moving_pacman import *
+from Ghosts import Ghost
+class DrawGraphic(PacMan,Ghost):
 
-class DrawGraphic(PacMan):
-
+	def __init__(self,class_pacman,class_ghost):
+		pass
 	def draw_graphic(self, screen):
 	   
 		for i in range(len(Map)):
@@ -60,6 +62,12 @@ class DrawGraphic(PacMan):
 		screen.blit(default_rotation,
 					(PacMan.cords['x'], PacMan.cords['y']))
 
+	# def draw_ghost(self,screen):
+	# 	ghost = pygame.image.load("Ghosts/Ghost_cyan_down.png")
+	# 	pygame.draw.rect(screen, (124, 124, 0),
+	# 									 (j * MOVE, i * MOVE, 23, 23))
+	# 	screen.blit(ghost,(Ghost.cords['x'], Ghost.cords['y']))
+
 
 
 
@@ -71,6 +79,8 @@ class DrawGraphic(PacMan):
 
 g = MakeGraph()
 print (g.find_nodes())
+g.make_all_paths()
+# print(g.get_shortest_path()[(10,4)][(4,11)])
 # print(g.is_p_vertex((100,100)))
 # print(g.bfs((1,4)))
 ALL_p = g.make_all_paths()
@@ -87,8 +97,9 @@ node1 = g.find_nodes()
 node.pop(0)
 DIRECTION = 'l'
 pacm = PacMan(g)
-a = DrawGraphic(pacm)
-print(pacm.find_closest_nodes())
+ghost = Ghost(g)
+a = DrawGraphic(pacm,ghost)
+
 while True:
 
 	a.draw_graphic(screen)
@@ -108,8 +119,10 @@ while True:
 		else:
 			pass
 	a.draw_pacman(screen, DIRECTION)
-	print(pacm.find_closest_nodes())
-	a.draw_nodes(screen)
+	pacm.draw_nodes(screen)
+	ghost.draw_ghost(screen)
+	# print(pacm.find_closest_nodes())
+	# a.draw_nodes(screen)
 	# print(pacm.find_nodes())
 	# g.draw_shortest_path(screen, node1[28], node1[13])
 	# if node:

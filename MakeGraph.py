@@ -6,6 +6,12 @@ class MakeGraph:
 		self.shortest_path_from_one_to_other = {}
 		self.nodes = self.find_nodes()
 
+	def get_shortest_path(self):
+		return self.shortest_path_from_one_to_other
+
+	def get_nodes(self):
+		return self.nodes
+
 	def find_nodes(self):
 		nodes = []
 		for row_n in range(1, len(Map) - 1):
