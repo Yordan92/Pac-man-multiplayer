@@ -163,7 +163,7 @@ class Ghost(MakeGraph):
 					
 
 					while map_to_a_vertex[v_adj] != vertex:
-						print("abc",v_adj)
+						# print("abc",v_adj)
 						v_adj = map_to_a_vertex[v_adj]
 					
 					return [v_adj]

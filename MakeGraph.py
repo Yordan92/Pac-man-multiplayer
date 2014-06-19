@@ -34,6 +34,8 @@ class MakeGraph:
 						nodes.append((col_n, row_n))
 						Map[col_n][row_n] = 3
 
+		
+
 		return nodes
 
 	def is_p_vertex(self, vertex):
