@@ -113,7 +113,7 @@ class PacMan(MakeGraph):
 		else:
 			default_rotation = pacmanD
 			self.move_down()
-
+		
 		screen.blit(default_rotation,
 					(self.cords['x'], self.cords['y']))
 

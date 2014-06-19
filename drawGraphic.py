@@ -58,7 +58,7 @@ class DrawGraphic(PacMan,Ghost):
 		else:
 			default_rotation = pacmanD
 			PacMan.move_down(self)
-
+		print((self.cords['x']/23, self.cords['y']/23))
 		screen.blit(default_rotation,
 					(PacMan.cords['x'], PacMan.cords['y']))
 
