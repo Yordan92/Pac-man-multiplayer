@@ -3,40 +3,47 @@ from Moving_pacman import PacMan
 import pygame
 class Ghost(MakeGraph):
 	index = 0
-	name_image_u = "Null" 
-	name_image_d = "Null"
-	name_image_l = "Null"
-	name_image_r = "Null"
-	cords = {'x': 92, 'y': 276}
-
-	def __init__(self,class_graph):
+	
+	
+	
+	def __init__(self,class_graph,x,y):
 		Ghost.index = Ghost.index + 1
 		self.all_nodes = class_graph.get_nodes()
 		self.paths_to_all_nodes = class_graph.get_shortest_path()
 		self.path = []
 		self.hunting = False
-	
+		self.name_image_u = "Ghost_red_up"
+		self.name_image_d = "Ghost_red_down"
+		self.name_image_l = "Ghost_red_left"
+		self.name_image_r = "Ghost_red_right"
+		self.name_image = self.name_image_u
+		self.cords={'x': x, 'y': y}
+		
+		
+		# {'x': 92, 'y': 161}
+		self.index = Ghost.index
 	def get_pictures(self):
-		if index == 0 :
+		if self.index == 0 :
 			self.name_image_u = "Ghost_red_up"
 			self.name_image_d = "Ghost_red_down"
 			self.name_image_l = "Ghost_red_left"
 			self.name_image_r = "Ghost_red_right"
-		if index == 1:
+		if self.index == 1:
 			self.name_image_u = "Ghost_orange_up"
 			self.name_image_d = "Ghost_orange_down"
 			self.name_image_l = "Ghost_orange_left"
 			self.name_image_r = "Ghost_orange_right"
-		if index == 2:
+		if self.index == 2:
 			self.name_image_u = "Ghost_pink_up"
 			self.name_image_d = "Ghost_pink_down"
 			self.name_image_l = "Ghost_pink_left"
 			self.name_image_r = "Ghost_pink_right"
-		if index == 3:
+		if self.index == 3:
 			self.name_image_u = "Ghost_cyan_up"
 			self.name_image_d = "Ghost_cyan_down"
 			self.name_image_l = "Ghost_cyan_left"
 			self.name_image_r = "Ghost_cyan_right"
+
     
 	def find_closest_nodes(self):
 		closest_nodes =[]
@@ -120,6 +127,19 @@ class Ghost(MakeGraph):
 					self.path.extend(2*[i])				
 		
 		new_step =  self.path.pop(0)
+		old_step = (int(self.cords['y'] / 23),int(self.cords['x'])/23)
+		if old_step[0] == new_step[0] and old_step[1]<new_step[1]:
+			self.name_image = self.name_image_r
+
+		if old_step[0] == new_step[0] and old_step[1]>new_step[1]:
+			self.name_image = self.name_image_l
+
+		if old_step[0] < new_step[0] and old_step[1]==new_step[1]:
+			self.name_image = self.name_image_d
+
+		if old_step[0] > new_step[0] and old_step[1]==new_step[1]:
+			self.name_image = self.name_image_u
+
 		self.cords['y'] = new_step[0]*23
 		self.cords['x'] = new_step[1]*23
 
@@ -148,7 +168,7 @@ class Ghost(MakeGraph):
 			
 			for v_adj in new_v_adj:
 				
-				if self.is_p_vertex(v_adj) and v_adj not in self.all_nodes and v_adj not in visited_n:
+				if self.is_p_vertex(v_adj)  and v_adj not in visited_n:
 					pygame.draw.rect(screen, (124, 124, 0),
 									 (v_adj[1]* 23, v_adj[0] * 23, 23, 23))
 					queue.append(v_adj)
@@ -168,7 +188,7 @@ class Ghost(MakeGraph):
 					
 					return [v_adj]
 		
-				
+		return []
 
 	def draw_ghost(self,screen):
 		ghost = pygame.image.load("Ghosts/Ghost_cyan_down.png")

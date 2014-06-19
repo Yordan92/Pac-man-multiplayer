@@ -12,8 +12,12 @@ from Moving_pacman import *
 from Ghosts import Ghost
 class DrawGraphic(PacMan,Ghost):
 
-	def __init__(self,class_pacman,class_ghost):
-		pass
+	def __init__(self,class_pacman,class_ghost,class_ghost1,class_ghost2,class_ghost3):
+		self.ghost = class_ghost
+		self.ghost1 = class_ghost1
+		self.ghost2 = class_ghost2
+		self.ghost3 = class_ghost3
+		self.pacman = class_pacman
 	def draw_graphic(self, screen):
 	   
 		for i in range(len(Map)):
@@ -58,15 +62,36 @@ class DrawGraphic(PacMan,Ghost):
 		else:
 			default_rotation = pacmanD
 			PacMan.move_down(self)
-		print((self.cords['x']/23, self.cords['y']/23))
+		print((self.cords['x'], self.cords['y']))
 		screen.blit(default_rotation,
 					(PacMan.cords['x'], PacMan.cords['y']))
 
-	# def draw_ghost(self,screen):
-	# 	ghost = pygame.image.load("Ghosts/Ghost_cyan_down.png")
-	# 	pygame.draw.rect(screen, (124, 124, 0),
-	# 									 (j * MOVE, i * MOVE, 23, 23))
-	# 	screen.blit(ghost,(Ghost.cords['x'], Ghost.cords['y']))
+	def draw_ghost(self,screen):
+		self.ghost.get_pictures()
+		self.ghost1.get_pictures()
+		self.ghost2.get_pictures()
+		self.ghost3.get_pictures()
+
+		
+		l = self.pacman.find_closest_nodes()
+
+		self.ghost.ghost_move(screen,l[0][::-1],(int(self.pacman.cords['y']/23),int(self.pacman.cords['x']/23)))
+		self.ghost1.ghost_move(screen,l[1][::-1],(int(self.pacman.cords['y']/23),int(self.pacman.cords['x']/23)))
+		
+		self.ghost2.ghost_move(screen,l[0][::-1],(int(self.pacman.cords['y']/23),int(self.pacman.cords['x']/23)))
+		self.ghost3.ghost_move(screen,l[1][::-1],(int(self.pacman.cords['y']/23),int(self.pacman.cords['x']/23)))
+		# p = self.path[-1]
+		ghost1 = pygame.image.load("Ghosts/"+self.ghost.name_image+".png")
+		ghost2 = pygame.image.load("Ghosts/"+self.ghost1.name_image+".png")
+		ghost3 = pygame.image.load("Ghosts/"+self.ghost2.name_image+".png")
+		ghost4 = pygame.image.load("Ghosts/"+self.ghost3.name_image+".png")
+		
+		# pygame.draw.rect(screen, (124, 124, 0),
+		# 								 (p[1]* 23, p[0] * 23, 23, 23))
+		screen.blit(ghost1,(self.ghost.cords['x'], self.ghost.cords['y']))
+		screen.blit(ghost2,(self.ghost1.cords['x'], self.ghost1.cords['y']))
+		screen.blit(ghost3,(self.ghost2.cords['x'], self.ghost2.cords['y']))
+		screen.blit(ghost4,(self.ghost3.cords['x'], self.ghost3.cords['y']))
 
 
 
@@ -97,8 +122,11 @@ node1 = g.find_nodes()
 node.pop(0)
 DIRECTION = 'l'
 pacm = PacMan(g)
-ghost = Ghost(g)
-a = DrawGraphic(pacm,ghost)
+ghost = Ghost(g,184,207)
+ghost1 = Ghost(g,207,207)
+ghost2 = Ghost(g,207,230)
+ghost3 = Ghost(g,184,230)
+a = DrawGraphic(pacm,ghost,ghost1,ghost2,ghost3)
 
 while True:
 
@@ -119,8 +147,8 @@ while True:
 		else:
 			pass
 	a.draw_pacman(screen, DIRECTION)
-	pacm.draw_nodes(screen)
-	ghost.draw_ghost(screen)
+	# pacm.draw_nodes(screen)
+	a.draw_ghost(screen)
 	# print(pacm.find_closest_nodes())
 	# a.draw_nodes(screen)
 	# print(pacm.find_nodes())
