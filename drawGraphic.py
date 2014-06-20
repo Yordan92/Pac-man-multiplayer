@@ -172,7 +172,7 @@ class PacManPlay(DrawGraphic):
 			for g in gst:
 				for g1 in gst:
 					if g.next_hop()==g1.find_ghost_cords() and g1.next_hop()==g.find_ghost_cords():
-						print("si ebi")
+						
 						temp = g.path
 						g.path = g1.path
 						g1.path = temp
@@ -185,7 +185,7 @@ class PacManPlay(DrawGraphic):
 		# self.ghost1.ghost_make_move()
 		# self.ghost2.ghost_make_move()
 		# self.ghost3.ghost_make_move()
-		# print(ghost3.next_hop(),ghost.find_ghost_cords())
+		# print(ghost3.next_hop(),ghost.find_ghost'ords())
 		# pygame.draw.rect(screen, (255, 0, 255),
 		# 							 (ghost3.next_hop()[1] * MOVE, ghost3.next_hop()[0] * MOVE, 23, 23))
 		# pygame.draw.rect(screen, (255, 0, 255),
