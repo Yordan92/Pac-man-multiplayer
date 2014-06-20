@@ -77,7 +77,7 @@ class PacMan(MakeGraph):
 			for v_adj in new_v_adj:
 				if self.is_p_vertex(v_adj) and v_adj not in Visited:
 					if v_adj in all_Nodes:
-						closest_nodes.append((v_adj[1],v_adj[0]))
+						closest_nodes.append((v_adj[0],v_adj[1]))
 					else:
 						queue.append(v_adj)
 				Visited.append(v_adj)
@@ -91,7 +91,7 @@ class PacMan(MakeGraph):
 		l = self.find_closest_nodes()
 		for i in l:
 			pygame.draw.rect(screen, (255, 0, 255),
-                                     (i[0] * MOVE, i[1] * MOVE, 23, 23))
+                                     (i[1] * MOVE, i[0] * MOVE, 23, 23))
 
 
 	def draw_pacman(self, screen, direction):

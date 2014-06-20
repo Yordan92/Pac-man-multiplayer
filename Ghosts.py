@@ -22,6 +22,15 @@ class Ghost(MakeGraph):
 		
 		# {'x': 92, 'y': 161}
 		self.index = Ghost.index
+	def next_hop(self):
+		if self.path:
+			return self.path[0]
+		return []
+	def find_ghost_cords(self):
+		ghost_x = int(self.cords['y']/23)
+		ghost_y = int(self.cords['x']/23)
+		return (ghost_x,ghost_y)
+		
 	def get_pictures(self):
 		if self.index == 0 :
 			self.name_image_u = "Ghost_red_up"
@@ -125,7 +134,10 @@ class Ghost(MakeGraph):
 				
 				for i in self.paths_to_all_nodes[my_cords][pacman_vertex]:
 					self.path.extend(2*[i])				
-		
+	
+	def ghost_make_move(self):	
+		# if not self.path:
+		# 	self.ghost_move(screen,pacman_vertex,pacman_cords)
 		new_step =  self.path.pop(0)
 		old_step = (int(self.cords['y'] / 23),int(self.cords['x'])/23)
 		if old_step[0] == new_step[0] and old_step[1]<new_step[1]:
