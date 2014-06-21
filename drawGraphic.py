@@ -10,7 +10,8 @@ from PacManMap import *
 from MakeGraph import *
 from Moving_pacman import *
 from Ghosts import Ghost
-import time 
+import socket
+import pickle
 class DrawGraphic():
 
 	def __init__(self,class_pacman,class_ghost,class_ghost1,class_ghost2,class_ghost3):
@@ -66,6 +67,28 @@ class DrawGraphic():
 		# print((self.cords['x'], self.cords['y']))
 		screen.blit(default_rotation,
 					(self.pacman.cords['x'], self.pacman.cords['y']))
+	def draw_c_pacman(self, screen,cords_x,cords_y,name_image,direction):
+		
+		pacman = pygame.image.load(name_image)
+		pacmanL = pygame.transform.rotate(pacman, 180)
+		pacmanU = pygame.transform.rotate(pacman, 90)
+		pacmanD = pygame.transform.rotate(pacman, 270)
+		default_rotation = pacman
+		if direction == 'l':
+			default_rotation = pacmanL
+			
+		elif direction == 'r':
+			default_rotation = pacman
+			
+		elif direction == 'u':
+			default_rotation = pacmanU
+			
+		else:
+			default_rotation = pacmanD
+			
+		# print((self.cords['x'], self.cords['y']))
+		screen.blit(default_rotation,
+					(cords_x, cords_y))
 
 	def draw_ghost(self,screen,name,cords_x,cords_y):
 		
@@ -204,8 +227,26 @@ class PacManPlay(DrawGraphic):
 				return False
 		return True
 
+	def send_to_other_player(self):
+		ghost_list = [self.ghost,self.ghost1,self.ghost2,self.ghost3]
+		cords_x = [self.ghost.cords['x'],self.ghost1.cords['x'],self.ghost2.cords['x'],self.ghost3.cords['x']]
+		cords_y = [self.ghost.cords['y'],self.ghost1.cords['y'],self.ghost2.cords['y'],self.ghost3.cords['y']]
+		all_cords = {'p':[self.pacman.cords,self.pacman.name_image,DIRECTION],
+					'g':[[self.ghost.name_image,self.ghost1.name_image,self.ghost2.name_image,self.ghost3.name_image],
+					cords_x,cords_y],
+					'm':Map}
+		b = pickle.dumps(all_cords)
+		
+		data,clientaddr = sock.recvfrom(2048)
+		pacman_c_cords = pickle.loads(data)
+
+		sock.sendto(b,clientaddr)
+		return pacman_c_cords
 
 
+sock = socket.socket(socket.AF_INET, # Internet
+             socket.SOCK_DGRAM) # UDP
+sock.bind(('',5005))
 
 
 
@@ -237,10 +278,12 @@ ghost2 = Ghost(g,207,230)
 ghost3 = Ghost(g,184,230)
 a = DrawGraphic(pacm,ghost,ghost1,ghost2,ghost3)
 testvam = PacManPlay(pacm,ghost,ghost1,ghost2,ghost3)
+
 print(testvam.split_pacman_ver())
 
 while testvam.is_game_over():
-
+	all_cords = testvam.send_to_other_player()
+	
 	a.draw_graphic(screen)
 	for event in pygame.event.get():
 		if event.type == QUIT:
@@ -259,7 +302,8 @@ while testvam.is_game_over():
 			pass
 	a.draw_pacman(screen, DIRECTION)
 	pacm.draw_nodes(screen)
-	testvam.ghost_chase(screen)
+	a.draw_c_pacman(screen,all_cords['p'][0]['x'],all_cords['p'][0]['y'],all_cords['p'][1],all_cords['p'][2])
+	# testvam.ghost_chase(screen)
 	# print(pacm.find_closest_nodes())
 	# a.draw_nodes(screen)
 	# print(pacm.find_nodes())
