@@ -254,7 +254,7 @@ sock.bind(('',5005))
 
 g = MakeGraph()
 print (g.find_nodes())
-g.make_all_paths()
+print(g.make_all_paths())
 # print(g.get_shortest_path()[(10,4)][(4,11)])
 # print(g.is_p_vertex((100,100)))
 # print(g.bfs((1,4)))
@@ -282,8 +282,8 @@ testvam = PacManPlay(pacm,ghost,ghost1,ghost2,ghost3)
 print(testvam.split_pacman_ver())
 
 while testvam.is_game_over():
-	all_cords = testvam.send_to_other_player()
-	
+	# all_cords = testvam.send_to_other_player()
+
 	a.draw_graphic(screen)
 	for event in pygame.event.get():
 		if event.type == QUIT:
@@ -301,9 +301,9 @@ while testvam.is_game_over():
 		else:
 			pass
 	a.draw_pacman(screen, DIRECTION)
-	pacm.draw_nodes(screen)
-	a.draw_c_pacman(screen,all_cords['p'][0]['x'],all_cords['p'][0]['y'],all_cords['p'][1],all_cords['p'][2])
-	# testvam.ghost_chase(screen)
+	# pacm.draw_nodes(screen)
+	# a.draw_c_pacman(screen,all_cords['p'][0]['x'],all_cords['p'][0]['y'],all_cords['p'][1],all_cords['p'][2])
+	testvam.ghost_chase(screen)
 	# print(pacm.find_closest_nodes())
 	# a.draw_nodes(screen)
 	# print(pacm.find_nodes())

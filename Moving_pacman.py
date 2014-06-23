@@ -99,7 +99,6 @@ class PacMan(MakeGraph):
 		pacmanL = pygame.transform.rotate(pacman, 180)
 		pacmanU = pygame.transform.rotate(pacman, 90)
 		pacmanD = pygame.transform.rotate(pacman, 270)
-
 		default_rotation = pacman
 		if direction == 'l':
 			default_rotation = pacmanL
