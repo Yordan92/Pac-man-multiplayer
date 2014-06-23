@@ -46,7 +46,15 @@ class TestMakeGraphFunctions(unittest.TestCase):
 			pacman.cords['y'] = i[1]
 			self.assertFalse(pacman.move_down())
 
-
+	def test_pacman_closest_nodes(self):
+		p = [(184,92),(46,322),(69,460),(23,23),(69,460)]
+		g = MakeGraph()
+		for i in p:
+			pacman = PacMan(g)
+			pacman.cords['x'] = i[0]
+			pacman.cords['y'] = i[1]
+			for nodes in pacman.find_closest_nodes():
+				self.assertTrue(nodes in self.nodes)
 
 if __name__ == '__main__':
 	unittest.main()
