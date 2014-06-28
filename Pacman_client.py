@@ -13,7 +13,8 @@ from Draw_pacman_client import *
 MOVE = 23
 WIDTH = 480
 HIGHT = 640
-
+UDP_IP = "10.255.4.53"
+UDP_Port = 5005
 class DrawGraphic():
 
 	def __init__(self,pacman):
@@ -99,8 +100,7 @@ class DrawGraphic():
 
 	
 
-UDP_IP = "192.168.1.110"
-UDP_Port = 5005
+
 sock = socket.socket(socket.AF_INET, # Internet
 		socket.SOCK_DGRAM) # UDP
 

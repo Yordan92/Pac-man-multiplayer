@@ -64,7 +64,7 @@ class DrawGraphic():
 		else:
 			default_rotation = pacmanD
 			self.pacman.move_down()
-		# print((self.cords['x'], self.cords['y']))
+		# print((self.pacman.cords['x'], self.pacman.cords['y']))
 		screen.blit(default_rotation,
 					(self.pacman.cords['x'], self.pacman.cords['y']))
 	def draw_c_pacman(self, screen,cords_x,cords_y,name_image,direction):
@@ -119,6 +119,13 @@ class PacManPlay(DrawGraphic):
 		pacman_y = int(self.pacman.cords['x']/23)
 		return (pacman_x,pacman_y)
 
+	def find_closest_node_to_node(self,node):
+		all_paths = self.ghost.paths_to_all_nodes
+		for athor_note in all_paths[node]:
+			if(len(all_paths[node][athor_note]) == 2):
+				return athor_note
+		return node
+
 	def split_pacman_ver(self):
 		closest_nod = self.pacman.find_closest_nodes()
 		pacman_cord = self.find_pacman_cords()
@@ -133,7 +140,9 @@ class PacManPlay(DrawGraphic):
 			if nodes[0] > pacman_cord[0] and nodes[1] < pacman_cord[1]:
 				cordinates.insert(3,nodes)
 
-		
+		for i in range(2):
+			if len(cordinates) < 4:
+				cordinates.append(self.find_closest_node_to_node(closest_nod[0]))
 		return cordinates
 	
 
@@ -151,17 +160,17 @@ class PacManPlay(DrawGraphic):
 						break
 				if can_move == True:
 					count_moves += 1
-					print("mestim ", f_ghost.index)
-					print("next_hopove:_________")
+					# print("mestim ", f_ghost.index)
+					# print("next_hopove:_________")
 					# for i in ghost_list:
 					# 	print(i.index,"-",i.find_ghost_cords(),"-",i.next_hop())
 					f_ghost.ghost_make_move()
 					temp_ghost_list.remove(f_ghost)
-					print(temp_ghost_list)
+					# print(temp_ghost_list)
 					break
-		if count_moves <3:
-			for i in ghost_list:
-						print(i.index,"-",i.find_ghost_cords(),"-",i.next_hop())
+		# if count_moves <3:
+		# 	for i in ghost_list:
+		# 				print(i.index,"-",i.find_ghost_cords(),"-",i.next_hop())
 
 		return count_moves	
 				# if (f_ghost.next_hop() == s_ghost.find_ghost_cords() and
@@ -182,16 +191,17 @@ class PacManPlay(DrawGraphic):
 
 		
 		if not self.ghost.path:
-			self.ghost.ghost_move(screen,chasing_l[0],pacman_cord)
+			self.ghost.ghost_move(chasing_l[0],pacman_cord)
+
 		if not self.ghost1.path:
-			self.ghost1.ghost_move(screen,chasing_l[1],pacman_cord)
+			self.ghost1.ghost_move(chasing_l[1],pacman_cord)
 		if not self.ghost2.path:
-			self.ghost2.ghost_move(screen,chasing_l[0],pacman_cord)
+			self.ghost2.ghost_move(chasing_l[2],pacman_cord)
 		if not self.ghost3.path:
-			self.ghost3.ghost_move(screen,chasing_l[1],pacman_cord)
+			self.ghost3.ghost_move(chasing_l[3],pacman_cord)
 		gst = [self.ghost,self.ghost1,self.ghost2,self.ghost3]
 		if self.are_goint_to_colide(screen,gst) < 3:
-			print("Vleznah v if-a _____________________")
+			# print(self.ghost.path)
 			for g in gst:
 				for g1 in gst:
 					if g.next_hop()==g1.find_ghost_cords() and g1.next_hop()==g.find_ghost_cords():
@@ -199,21 +209,7 @@ class PacManPlay(DrawGraphic):
 						temp = g.path
 						g.path = g1.path
 						g1.path = temp
-						
-
-
-
-		# print("____________________")
-		# self.ghost.ghost_make_move()
-		# self.ghost1.ghost_make_move()
-		# self.ghost2.ghost_make_move()
-		# self.ghost3.ghost_make_move()
-		# print(ghost3.next_hop(),ghost.find_ghost'ords())
-		# pygame.draw.rect(screen, (255, 0, 255),
-		# 							 (ghost3.next_hop()[1] * MOVE, ghost3.next_hop()[0] * MOVE, 23, 23))
-		# pygame.draw.rect(screen, (255, 0, 255),
-		# 							 (ghost.find_ghost_cords()[1] * MOVE, ghost.find_ghost_cords()[0] * MOVE, 23, 23))
-		# print(ghost3.next_hop() == ghost.find_ghost_cords())
+		ghost.find_ghost_cords()
 		name = [self.ghost.name_image,self.ghost1.name_image,
 				self.ghost2.name_image, self.ghost3.name_image]
 		cords_x = [self.ghost.cords['x'],self.ghost1.cords['x'],self.ghost2.cords['x'],self.ghost3.cords['x']]
@@ -244,17 +240,14 @@ class PacManPlay(DrawGraphic):
 		return pacman_c_cords
 
 
-sock = socket.socket(socket.AF_INET, # Internet
-             socket.SOCK_DGRAM) # UDP
-sock.bind(('',5005))
 
 
 
 
 
 g = MakeGraph()
-print (g.find_nodes())
-print(g.make_all_paths())
+# print (g.find_nodes())
+# print(g.make_all_paths())
 # print(g.get_shortest_path()[(10,4)][(4,11)])
 # print(g.is_p_vertex((100,100)))
 # print(g.bfs((1,4)))
@@ -273,16 +266,17 @@ node.pop(0)
 DIRECTION = 'l'
 pacm = PacMan(g)
 ghost = Ghost(g,184,207)
+
 ghost1 = Ghost(g,207,207)
 ghost2 = Ghost(g,207,230)
 ghost3 = Ghost(g,184,230)
 a = DrawGraphic(pacm,ghost,ghost1,ghost2,ghost3)
 testvam = PacManPlay(pacm,ghost,ghost1,ghost2,ghost3)
-
-print(testvam.split_pacman_ver())
+testvam.find_closest_node_to_node(pacm.find_closest_nodes()[0])
+# print(testvam.split_pacman_ver())
 
 while testvam.is_game_over():
-	# all_cords = testvam.send_to_other_player()
+	all_cords = testvam.send_to_other_player()
 
 	a.draw_graphic(screen)
 	for event in pygame.event.get():

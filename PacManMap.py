@@ -1,3 +1,4 @@
+import socket
 Map = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 0],
@@ -25,3 +26,7 @@ Map = [
 WIDTH = 480
 HIGHT = 640
 MOVE = 23
+sock = socket.socket(socket.AF_INET, # Internet
+             socket.SOCK_DGRAM) # UDP
+sock.bind(('',5005))
+
