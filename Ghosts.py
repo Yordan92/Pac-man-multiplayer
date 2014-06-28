@@ -116,13 +116,13 @@ class Ghost(MakeGraph):
 					queue.append(v_adj)
 					visited_n.append(v_adj)
 
-	def ghost_move(self,screen, pacman_vertex, pacman_cords):
+	def ghost_move(self, pacman_vertex, pacman_cords):
 		my_cords = (int(self.cords['y']/23),int(self.cords['x']/23))
 		
 		if my_cords == pacman_vertex:
 			self.hunting = True
 		if self.hunting == True:
-			self.path = self.search_eat(screen,pacman_cords)
+			self.path = self.search_eat(pacman_cords)
 			
 		if not self.path:
 			if self.hunting == True:
@@ -155,7 +155,7 @@ class Ghost(MakeGraph):
 		self.cords['y'] = new_step[0]*23
 		self.cords['x'] = new_step[1]*23
 
-	def search_eat(self,screen,pacman_cords):
+	def search_eat(self,pacman_cords):
 		closest_nodes =[]
 		# pacman_x = int(pacman_cords['x']/23)
 		# pacman_y = int(pacman_cords['y']/23)
@@ -171,8 +171,7 @@ class Ghost(MakeGraph):
 		
 		while queue != []:
 			new_v = queue.pop(0)
-			pygame.draw.rect(screen, (84, 84, 80),
-								 (pacman_cords[1]* 23, pacman_cords[0] * 23, 23, 23))
+			
 			new_v_adj = [(new_v[0] - 1, new_v[1]),
 						 (new_v[0] + 1, new_v[1]),
 						 (new_v[0], new_v[1] - 1),
@@ -181,8 +180,6 @@ class Ghost(MakeGraph):
 			for v_adj in new_v_adj:
 				
 				if self.is_p_vertex(v_adj)  and v_adj not in visited_n:
-					pygame.draw.rect(screen, (124, 124, 0),
-									 (v_adj[1]* 23, v_adj[0] * 23, 23, 23))
 					queue.append(v_adj)
 					visited_n.append(v_adj)
 					map_to_a_vertex[v_adj] = new_v
